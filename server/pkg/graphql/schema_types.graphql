@@ -1,0 +1,46 @@
+scalar Time
+
+directive @hasRole(role: Role!) on FIELD_DEFINITION
+
+enum Role {
+	ADMIN
+	MEMBER
+	GUEST
+}
+
+type User {
+	id: String!
+	name: String!
+	todos: [Todo]!
+	todosConnection(first: Int!, after: String): TodoConnection!
+}
+
+type Todo {
+	id: String!
+	body: String!
+	owner: User!
+	completed: Boolean!
+}
+
+type TodoConnection {
+	edges: [TodoEdge!]!
+	pageInfo: PageInfo!
+}
+
+type TodoEdge {
+	cursor: String!
+	node: Todo!
+}
+
+type Viewer {
+	me: User!
+	todos: [Todo]!
+}
+type Query {
+	viewer: Viewer
+}
+
+type Mutation {
+	addTodo(userId: String!): Todo!
+	toggleTodo(todoId: String!): Todo!
+}

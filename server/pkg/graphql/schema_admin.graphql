@@ -1,0 +1,4 @@
+extend type Query {
+	todos: [Todo]! @hasRole(role: ADMIN)
+	users: [User]! @hasRole(role: ADMIN)
+}

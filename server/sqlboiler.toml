@@ -1,0 +1,13 @@
+output = "."
+pkgname = "db"
+no-context = true
+
+[psql]
+  dbname = "boilerplate"
+  host   = "localhost"
+  port   = 5438
+  user   = "boilerplate"
+  pass   = "dev"
+  schema = "public"
+  blacklist = ["migrations", "other"]
+  sslmode = "disable"

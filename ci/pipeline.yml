@@ -1,0 +1,79 @@
+resources:
+  - name: version
+    type: semver
+    source:
+      driver: s3
+      initial_version: 0.0.1
+      endpoint: minio:9000
+      bucket: releases
+      key: boilerplate/version
+      access_key_id: ((s3_access_key_id))
+      secret_access_key: ((s3_secret_access_key))
+      disable_ssl: true
+  - name: repo
+    type: git
+    source:
+      uri: ((gitea-repo-uri))
+      branch: develop
+      private_key: ((gitea-private-key))
+  - name: release-server
+    type: s3
+    source:
+      regexp: boilerplate/release-server-(.*).tar.gz
+      endpoint: minio:9000
+      bucket: releases
+      access_key_id: ((s3_access_key_id))
+      secret_access_key: ((s3_secret_access_key))
+      disable_ssl: true
+  - name: release-web
+    type: s3
+    source:
+      regexp: boilerplate/release-web-(.*).tar.gz
+      endpoint: minio:9000
+      bucket: releases
+      access_key_id: ((s3_access_key_id))
+      secret_access_key: ((s3_secret_access_key))
+      disable_ssl: true
+jobs:
+  - name: build
+    public: true
+    plan:
+      - get: repo
+        trigger: true
+      - get: version
+        params:
+          bump: patch
+      - in_parallel:
+          - task: build-backend
+            file: repo/ci/tasks/build-backend.yml
+          - task: build-frontend
+            file: repo/ci/tasks/build-frontend.yml
+      - put: release-server
+        params:
+          file: server/release-server-*.tar.gz
+          acl: public-read
+      - put: release-web
+        params:
+          file: web/release-web-*.tar.gz
+          acl: public-read
+      - put: version
+        params:
+          file: version/number
+
+  - name: deploy
+    public: true
+    serial: true
+    plan:
+      - get: repo
+      - get: version
+        trigger: true
+        passed:
+          - build
+      - get: release-server
+        passed:
+          - build
+      - get: release-web
+        passed:
+          - build
+      - task: deploy-staging
+        file: repo/ci/tasks/deploy-staging.yml

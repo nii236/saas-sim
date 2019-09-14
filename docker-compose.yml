@@ -1,0 +1,46 @@
+version: "3.7"
+services:
+  js:
+    build: ./web
+    image: boilerplate-web:latest
+    networks:
+      - boilerplate-net
+    volumes:
+      - ./web:/web
+  go:
+    build: ./server
+    image: boilerplate-api:latest
+    networks:
+      - boilerplate-net
+    environment:
+      DATABASE_HOST: db
+      DATABASE_PORT: 5432
+    volumes:
+      - ./server:/app
+  lb:
+    image: "abiosoft/caddy:1.0.3"
+    networks:
+      - boilerplate-net
+    ports:
+      - "8081:8081"
+    volumes:
+      - ./configs/Caddyfile-dev:/etc/Caddyfile
+      - ./web/dist:/srv
+  db:
+    image: "postgres:11-alpine"
+    networks:
+      - boilerplate-net
+    environment:
+      POSTGRES_USER: boilerplate
+      POSTGRES_PASSWORD: dev
+      POSTGRES_DB: boilerplate
+    ports:
+      - "5439:5432"
+    logging:
+      driver: none
+    volumes:
+      - ./server/migrations/:/docker-entrypoint-initdb.d/
+networks:
+  boilerplate-net:
+volumes:
+  db-data:

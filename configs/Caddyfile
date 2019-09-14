@@ -1,0 +1,11 @@
+:8081 {
+    proxy /api/ localhost:8080 {
+        transparent
+        websocket
+    }
+    root ../web/dist
+    rewrite { 
+        if {path} not_match ^/api
+        to {path} {path} /index.html
+    }
+}

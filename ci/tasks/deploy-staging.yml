@@ -1,0 +1,19 @@
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: golang
+    tag: 1.12-alpine
+
+# params:
+#   SSH_KEY: ((gitea-private-key))
+
+inputs:
+  - name: release-server
+  - name: release-web
+  - name: repo
+
+run:
+  path: ash
+  args: [./repo/scripts/deploy-staging.sh]

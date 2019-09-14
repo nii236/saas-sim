@@ -1,0 +1,21 @@
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: node
+    tag: 12.9.1-alpine
+
+# params:
+#   NPM_CONFIG_REGISTRY: http://verdaccio:4873
+
+inputs:
+  - name: repo
+  - name: version
+
+outputs:
+  - name: web
+
+run:
+  path: ash
+  args: [./repo/scripts/build-frontend.sh]
