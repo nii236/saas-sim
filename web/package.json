@@ -12,12 +12,14 @@
 		"build-prod": "parcel build src/index.html"
 	},
 	"dependencies": {
+		"@chakra-ui/core": "^0.2.8",
 		"@emotion/core": "^10.0.17",
 		"@emotion/styled": "^10.0.17",
 		"@mdx-js/react": "^1.4.5",
 		"@theme-ui/presets": "^0.2.42",
 		"@theme-ui/style-guide": "^0.2.42",
 		"@types/theme-ui": "^0.2.2",
+		"emotion-theming": "^10.0.18",
 		"jss": "^9.8.7",
 		"jss-preset-default": "^4.5.0",
 		"react": "^16.9.0",
