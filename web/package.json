@@ -11,7 +11,8 @@
 		"start": "parcel src/index.html",
 		"build-prod": "parcel build src/index.html"
 	},
-	"dependencies": {
+	"dependencies": {},
+	"devDependencies": {
 		"@chakra-ui/core": "^0.2.8",
 		"@emotion/core": "^10.0.17",
 		"@emotion/styled": "^10.0.17",
@@ -20,17 +21,12 @@
 		"@theme-ui/style-guide": "^0.2.42",
 		"@types/theme-ui": "^0.2.2",
 		"emotion-theming": "^10.0.18",
-		"jss": "^9.8.7",
-		"jss-preset-default": "^4.5.0",
 		"react": "^16.9.0",
 		"react-dom": "^16.9.0",
 		"react-jss": "^8.6.1",
 		"react-vis": "^1.11.7",
 		"styled-system": "^5.1.2",
-		"tachyons": "^4.11.1",
-		"theme-ui": "^0.2.42"
-	},
-	"devDependencies": {
+		"theme-ui": "^0.2.42",
 		"@babel/core": "^7.6.0",
 		"@babel/preset-env": "^7.6.0",
 		"@babel/preset-react": "^7.0.0",

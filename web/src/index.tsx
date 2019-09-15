@@ -5,13 +5,15 @@ import "./styles.scss"
 import "tachyons"
 import { ThemeProvider } from "theme-ui"
 import { theme } from "./theme"
-import { CSSReset } from "@chakra-ui/core"
+import { CSSReset, ColorModeProvider } from "@chakra-ui/core"
 
 var mountNode = document.getElementById("app")
 ReactDOM.render(
 	<ThemeProvider theme={theme}>
-		{/* <CSSReset /> */}
-		<App />
+		<ColorModeProvider>
+			<App />
+		</ColorModeProvider>
+		<CSSReset />
 	</ThemeProvider>,
 	mountNode,
 )
